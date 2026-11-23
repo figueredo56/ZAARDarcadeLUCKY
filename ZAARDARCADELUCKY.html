@@ -1,0 +1,1330 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZAARD Lucky Arena - Predicción BNB & Recompensas ZARD</title>
+    <style>
+        :root {
+            --bg-dark: #06030d;
+            --card-bg: rgba(20, 10, 42, 0.93);
+            --neon-purple: #c084fc;
+            --neon-cyan: #22d3ee;
+            --neon-pink: #f472b6;
+            --neon-green: #34d399;
+            --neon-red: #fb7185;
+            --neon-gold: #f59e0b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: radial-gradient(circle at 50% 0%, rgba(34, 211, 238, 0.2), transparent 55%),
+                        radial-gradient(circle at 85% 25%, rgba(192, 132, 252, 0.22), transparent 55%),
+                        linear-gradient(rgba(8, 3, 18, 0.85), rgba(4, 2, 10, 0.96)),
+                        url('https://photos.pinksale.finance/file/pinksale-logo-upload/1790375348672-4de629a77b910ca4b3f245dda1b233f0.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-x: hidden;
+        }
+
+        /* Rayos y chispas eléctricas ambientales */
+        .electric-sparks-layer {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .spark-bolt {
+            position: absolute;
+            width: 3px;
+            height: 75px;
+            background: linear-gradient(180deg, transparent, var(--neon-cyan), #ffffff, var(--neon-purple), transparent);
+            filter: drop-shadow(0 0 8px var(--neon-cyan)) drop-shadow(0 0 16px var(--neon-purple));
+            opacity: 0;
+            transform: rotate(24deg);
+            animation: lightningStrike 3.8s infinite ease-in-out;
+        }
+
+        .spark-bolt.b1 { top: 8%; left: 10%; animation-delay: 0s; }
+        .spark-bolt.b2 { top: 22%; right: 12%; height: 90px; transform: rotate(-28deg); animation-delay: 1.3s; }
+        .spark-bolt.b3 { bottom: 18%; left: 16%; height: 70px; transform: rotate(18deg); animation-delay: 2.5s; }
+
+        @keyframes lightningStrike {
+            0%, 82%, 100% { opacity: 0; transform: scale(0.85) rotate(22deg); }
+            85% { opacity: 1; transform: scale(1.15) rotate(24deg); }
+            88% { opacity: 0.25; }
+            91% { opacity: 0.95; transform: scale(1.05) rotate(20deg); }
+        }
+
+        .spark-dot {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #ffffff;
+            box-shadow: 0 0 10px #22d3ee, 0 0 22px #c084fc, 0 0 32px #f472b6;
+            animation: sparkPop 2.2s infinite alternate ease-in-out;
+        }
+
+        .spark-dot.s1 { top: 14%; left: 26%; animation-delay: 0.2s; }
+        .spark-dot.s2 { top: 38%; right: 8%; animation-delay: 0.9s; }
+        .spark-dot.s3 { bottom: 26%; left: 7%; animation-delay: 1.5s; }
+        .spark-dot.s4 { bottom: 12%; right: 24%; animation-delay: 1.9s; }
+
+        @keyframes sparkPop {
+            0% { transform: scale(0.5); opacity: 0.35; }
+            100% { transform: scale(1.55); opacity: 1; }
+        }
+
+        .navbar {
+            width: 100%;
+            max-width: 1240px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 22px;
+            background: rgba(18, 8, 36, 0.94);
+            border-bottom: 1.5px solid rgba(34, 211, 238, 0.55);
+            box-shadow: 0 4px 28px rgba(147, 51, 234, 0.4);
+            backdrop-filter: blur(10px);
+            z-index: 10;
+            position: relative;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            font-weight: 800;
+            font-size: 1.12rem;
+            color: #e9d5ff;
+            letter-spacing: 0.6px;
+        }
+
+        .logo-area img {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            border: 2px solid var(--neon-cyan);
+            box-shadow: 0 0 14px rgba(34, 211, 238, 0.75);
+        }
+
+        .nav-controls {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .lang-badge {
+            background: rgba(30, 17, 56, 0.95);
+            color: #22d3ee;
+            border: 1px solid rgba(34, 211, 238, 0.55);
+            padding: 7px 13px;
+            border-radius: 8px;
+            font-size: 0.88rem;
+            font-weight: bold;
+            box-shadow: 0 0 12px rgba(34, 211, 238, 0.25);
+        }
+
+        .btn-wallet {
+            background: linear-gradient(135deg, #10b981, #22d3ee);
+            color: #041014;
+            border: none;
+            padding: 9px 17px;
+            border-radius: 8px;
+            font-weight: 800;
+            cursor: pointer;
+            box-shadow: 0 0 18px rgba(34, 211, 238, 0.55);
+            transition: 0.25s;
+        }
+
+        .btn-wallet:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 28px rgba(52, 211, 153, 0.85);
+        }
+
+        .screen {
+            width: 100%;
+            max-width: 1240px;
+            padding: 24px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+            position: relative;
+            z-index: 5;
+        }
+
+        .hidden { display: none !important; }
+
+        /* BIENVENIDA MÁS GRANDE Y LEGIBLE EN MÓVIL Y PC */
+        #screenWelcome {
+            justify-content: center;
+            min-height: calc(100vh - 76px);
+        }
+
+        .welcome-card-box {
+            background: rgba(18, 8, 38, 0.93);
+            border: 2px solid var(--neon-cyan);
+            border-radius: 22px;
+            padding: 40px 36px;
+            max-width: 920px;
+            width: 100%;
+            box-shadow: 0 0 55px rgba(168, 85, 247, 0.55), 0 0 30px rgba(34, 211, 238, 0.3), inset 0 0 26px rgba(34, 211, 238, 0.14);
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .welcome-card-box::before {
+            content: '⚡';
+            position: absolute;
+            top: 16px;
+            right: 22px;
+            font-size: 1.6rem;
+            filter: drop-shadow(0 0 12px var(--neon-cyan));
+            animation: sparkPop 1.8s infinite alternate;
+        }
+
+        .floating-logo-container {
+            text-align: center;
+            margin-bottom: 18px;
+        }
+
+        .floating-logo {
+            width: 108px;
+            height: 108px;
+            border-radius: 50%;
+            border: 3px solid var(--neon-cyan);
+            object-fit: cover;
+            animation: floatGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes floatGlow {
+            0% { transform: translateY(0px); box-shadow: 0 0 20px var(--neon-cyan); }
+            50% { transform: translateY(-9px); box-shadow: 0 0 36px var(--neon-purple); }
+            100% { transform: translateY(0px); box-shadow: 0 0 20px var(--neon-cyan); }
+        }
+
+        .welcome-card-box h1 {
+            font-size: clamp(1.75rem, 3.2vw, 2.45rem);
+            background: linear-gradient(90deg, var(--neon-cyan), var(--neon-purple), var(--neon-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 14px;
+            text-align: center;
+        }
+
+        .welcome-desc {
+            color: #f3e8ff;
+            font-size: clamp(1.02rem, 1.4vw, 1.18rem);
+            line-height: 1.65;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .rules-list-welcome {
+            background: rgba(12, 6, 24, 0.94);
+            border: 1.5px solid rgba(192, 132, 252, 0.65);
+            border-radius: 14px;
+            padding: 18px 24px;
+            margin-bottom: 24px;
+            font-size: clamp(0.95rem, 1.25vw, 1.08rem);
+            color: #e9d5ff;
+            line-height: 1.7;
+            box-shadow: inset 0 0 18px rgba(34, 211, 238, 0.08);
+        }
+
+        .rules-list-welcome li {
+            margin-bottom: 8px;
+        }
+
+        .btn-action {
+            display: block;
+            width: 100%;
+            background: linear-gradient(135deg, #9333ea, #22d3ee);
+            color: #fff;
+            border: none;
+            padding: 15px 20px;
+            font-size: 1.08rem;
+            font-weight: 800;
+            border-radius: 12px;
+            cursor: pointer;
+            box-shadow: 0 0 26px rgba(34, 211, 238, 0.55), 0 0 18px rgba(147, 51, 234, 0.55);
+            transition: 0.25s;
+            text-align: center;
+        }
+
+        .btn-action:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 38px rgba(34, 211, 238, 0.85);
+        }
+
+        .loading-box { text-align: center; padding: 60px 20px; }
+
+        .spinner {
+            width: 66px;
+            height: 66px;
+            border: 5px solid rgba(168, 85, 247, 0.25);
+            border-top: 5px solid var(--neon-cyan);
+            border-right: 5px solid var(--neon-purple);
+            border-radius: 50%;
+            animation: spin 0.9s linear infinite;
+            margin: 0 auto 20px auto;
+            box-shadow: 0 0 28px rgba(34, 211, 238, 0.5);
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .arena-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            width: 100%;
+        }
+
+        .top-bar-arena {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            background: rgba(18, 8, 38, 0.92);
+            padding: 13px 18px;
+            border-radius: 14px;
+            border: 1.5px solid rgba(34, 211, 238, 0.45);
+            box-shadow: 0 0 24px rgba(147, 51, 234, 0.3);
+        }
+
+        .card-panel {
+            background: var(--card-bg);
+            border: 1.5px solid rgba(192, 132, 252, 0.6);
+            border-radius: 18px;
+            padding: 24px;
+            box-shadow: 0 0 34px rgba(147, 51, 234, 0.32), inset 0 0 20px rgba(34, 211, 238, 0.08);
+            backdrop-filter: blur(8px);
+            position: relative;
+        }
+
+        .chart-header-badge {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--neon-cyan);
+            box-shadow: 0 0 15px rgba(34, 211, 238, 0.7);
+            background: #090414;
+        }
+
+        .market-chart-box {
+            background: linear-gradient(180deg, rgba(12, 6, 26, 0.96), rgba(4, 2, 10, 0.99));
+            border-radius: 12px;
+            border: 1.5px solid rgba(34, 211, 238, 0.5);
+            box-shadow: inset 0 0 24px rgba(34, 211, 238, 0.14), 0 0 18px rgba(192, 132, 252, 0.18);
+            position: relative;
+            height: 215px;
+            margin-bottom: 12px;
+            overflow: hidden;
+        }
+
+        canvas { width: 100%; height: 100%; display: block; }
+
+        .price-big {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--neon-green);
+            text-shadow: 0 0 14px rgba(52, 211, 153, 0.65);
+        }
+
+        .payout-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(16, 185, 129, 0.12);
+            border: 1px solid rgba(34, 211, 238, 0.45);
+            color: #a7f3d0;
+            padding: 9px 14px;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            margin-bottom: 12px;
+            width: 100%;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        .timer-badge {
+            background: rgba(46, 16, 101, 0.92);
+            color: #67e8f9;
+            padding: 6px 14px;
+            border-radius: 8px;
+            font-weight: 800;
+            font-size: 0.95rem;
+            border: 1px solid rgba(34, 211, 238, 0.55);
+            box-shadow: 0 0 14px rgba(34, 211, 238, 0.3);
+        }
+
+        .bet-buttons {
+            display: flex;
+            gap: 14px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn-sube {
+            flex: 1;
+            min-width: 180px;
+            background: linear-gradient(135deg, #059669, #34d399);
+            color: #03150e;
+            border: none;
+            padding: 13px;
+            border-radius: 10px;
+            font-size: 0.96rem;
+            font-weight: 800;
+            cursor: pointer;
+            box-shadow: 0 0 22px rgba(52, 211, 153, 0.5);
+            transition: 0.2s;
+        }
+
+        .btn-sube:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 32px rgba(52, 211, 153, 0.85);
+        }
+
+        .btn-baja {
+            flex: 1;
+            min-width: 180px;
+            background: linear-gradient(135deg, #dc2626, #fb7185);
+            color: #fff;
+            border: none;
+            padding: 13px;
+            border-radius: 10px;
+            font-size: 0.96rem;
+            font-weight: 800;
+            cursor: pointer;
+            box-shadow: 0 0 22px rgba(251, 113, 133, 0.5);
+            transition: 0.2s;
+        }
+
+        .btn-baja:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 32px rgba(251, 113, 133, 0.85);
+        }
+
+        .order-book {
+            max-height: 105px;
+            overflow-y: auto;
+            font-size: 0.78rem;
+            background: rgba(10, 4, 20, 0.88);
+            border: 1px solid rgba(168, 85, 247, 0.45);
+            border-radius: 8px;
+            padding: 6px;
+        }
+
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 4px 8px;
+            border-bottom: 1px solid rgba(124, 58, 237, 0.2);
+        }
+
+        .order-green { color: #34d399; font-weight: bold; }
+        .order-red { color: #fb7185; font-weight: bold; }
+
+        /* Escaparate de PANGA, ZARED y ZYM con balance + link directo Web3 */
+        .ecosystem-showcase {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 16px;
+            margin-top: 14px;
+        }
+
+        .token-pill-card {
+            background: linear-gradient(160deg, rgba(16, 8, 34, 0.96), rgba(8, 4, 18, 0.98));
+            border-radius: 16px;
+            padding: 18px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 12px;
+            transition: 0.25s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .token-pill-card::after {
+            content: '⚡';
+            position: absolute;
+            top: 10px;
+            right: 12px;
+            font-size: 0.95rem;
+            opacity: 0.85;
+            animation: sparkPop 2s infinite alternate;
+        }
+
+        .token-pill-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .token-pill-top {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+        }
+
+        .token-pill-card img {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+
+        .token-balance-box {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 10px;
+            padding: 9px 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+        }
+
+        .web3-token-tag {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            width: 100%;
+            text-decoration: none;
+            font-weight: 800;
+            font-size: 0.84rem;
+            padding: 9px 12px;
+            border-radius: 10px;
+            transition: 0.25s;
+        }
+
+        .card-panga {
+            border: 1.5px solid rgba(245, 158, 11, 0.7);
+            box-shadow: 0 0 24px rgba(245, 158, 11, 0.25);
+        }
+        .card-panga img { border: 2px solid var(--neon-gold); box-shadow: 0 0 15px rgba(245, 158, 11, 0.65); }
+        .card-panga .web3-token-tag {
+            background: rgba(245, 158, 11, 0.16);
+            border: 1px solid rgba(245, 158, 11, 0.65);
+            color: #fcd34d;
+        }
+        .card-panga .web3-token-tag:hover { background: rgba(245, 158, 11, 0.28); box-shadow: 0 0 16px rgba(245, 158, 11, 0.5); }
+
+        .card-zared {
+            border: 1.5px solid rgba(244, 114, 182, 0.7);
+            box-shadow: 0 0 24px rgba(244, 114, 182, 0.25);
+        }
+        .card-zared img { border: 2px solid var(--neon-pink); box-shadow: 0 0 15px rgba(244, 114, 182, 0.65); }
+        .card-zared .web3-token-tag {
+            background: rgba(244, 114, 182, 0.16);
+            border: 1px solid rgba(244, 114, 182, 0.65);
+            color: #f9a8d4;
+        }
+        .card-zared .web3-token-tag:hover { background: rgba(244, 114, 182, 0.28); box-shadow: 0 0 16px rgba(244, 114, 182, 0.5); }
+
+        .card-zym {
+            border: 1.5px solid rgba(192, 132, 252, 0.7);
+            box-shadow: 0 0 24px rgba(192, 132, 252, 0.25);
+        }
+        .card-zym img { border: 2px solid var(--neon-purple); box-shadow: 0 0 15px rgba(192, 132, 252, 0.65); }
+        .card-zym .web3-token-tag {
+            background: rgba(192, 132, 252, 0.16);
+            border: 1px solid rgba(192, 132, 252, 0.65);
+            color: #e9d5ff;
+        }
+        .card-zym .web3-token-tag:hover { background: rgba(192, 132, 252, 0.28); box-shadow: 0 0 16px rgba(192, 132, 252, 0.5); }
+
+        .middle-banner-deco {
+            width: 100%;
+            min-height: 220px;
+            background: linear-gradient(135deg, rgba(28, 12, 56, 0.96), rgba(10, 5, 24, 0.99));
+            border: 2px solid var(--neon-cyan);
+            border-radius: 16px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-around;
+            gap: 24px;
+            flex-wrap: wrap;
+            box-shadow: 0 0 42px rgba(168, 85, 247, 0.5), inset 0 0 24px rgba(34, 211, 238, 0.16);
+            padding: 24px 32px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .middle-banner-deco img {
+            width: 165px;
+            height: 165px;
+            object-fit: contain;
+            filter: drop-shadow(0 0 24px rgba(34, 211, 238, 0.8));
+            animation: floatGlow 3s ease-in-out infinite;
+        }
+
+        .middle-banner-content {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 10px;
+            flex: 1;
+            min-width: 240px;
+        }
+
+        .middle-banner-title {
+            color: #f3e8ff;
+            font-size: 1.25rem;
+            font-weight: 800;
+            letter-spacing: 0.8px;
+            text-shadow: 0 0 14px var(--neon-cyan);
+        }
+
+        .middle-banner-text {
+            color: #d8b4fe;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .bottom-full-banner {
+            width: 100%;
+            background: linear-gradient(135deg, rgba(22, 9, 45, 0.96), rgba(8, 3, 18, 0.99));
+            border: 2px solid var(--neon-purple);
+            border-radius: 16px;
+            padding: 24px 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+            flex-wrap: wrap;
+            box-shadow: 0 0 42px rgba(192, 132, 252, 0.5), inset 0 0 22px rgba(34, 211, 238, 0.18);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .bottom-full-banner::before, .bottom-full-banner::after {
+            content: '';
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            background: #fff;
+            border-radius: 50%;
+            box-shadow: 0 0 20px 6px #22d3ee, 0 0 38px 14px #c084fc;
+            animation: sparkGlow 1.3s infinite alternate;
+        }
+
+        .bottom-full-banner::before { top: 10px; left: 12px; }
+        .bottom-full-banner::after { bottom: 10px; right: 12px; }
+
+        @keyframes sparkGlow {
+            0% { transform: scale(0.8); opacity: 0.6; }
+            100% { transform: scale(1.4); opacity: 1; }
+        }
+
+        .bottom-full-banner img {
+            width: 125px;
+            height: 125px;
+            object-fit: contain;
+            filter: drop-shadow(0 0 20px rgba(34, 211, 238, 0.85));
+        }
+
+        .bottom-full-text-area { flex: 1; min-width: 240px; }
+
+        .bottom-full-title {
+            color: #fae8ff;
+            font-size: 1.18rem;
+            font-weight: 800;
+            margin-bottom: 6px;
+            text-shadow: 0 0 12px var(--neon-cyan);
+        }
+
+        .bottom-full-desc {
+            color: #d8b4fe;
+            font-size: 0.92rem;
+            line-height: 1.5;
+        }
+
+        .footer-nav-links {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+            width: 100%;
+            margin-top: 4px;
+        }
+
+        .footer-link-btn {
+            flex: 1;
+            min-width: 220px;
+            background: linear-gradient(135deg, #2e1065, #1e1138);
+            border: 1px solid #9333ea;
+            color: #e9d5ff;
+            text-align: center;
+            padding: 12px 14px;
+            border-radius: 10px;
+            font-size: 0.86rem;
+            font-weight: bold;
+            text-decoration: none;
+            box-shadow: 0 0 15px rgba(147, 51, 234, 0.3);
+            transition: 0.25s;
+        }
+
+        .footer-link-btn:hover {
+            background: linear-gradient(135deg, #3b1d6e, #2e1065);
+            border-color: var(--neon-cyan);
+            transform: translateY(-2px);
+            box-shadow: 0 0 24px rgba(34, 211, 238, 0.55);
+            color: #fff;
+        }
+
+        .mode-badge {
+            display: inline-block;
+            padding: 6px 13px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: bold;
+        }
+
+        .guest-mode { background: #d97706; color: #fff; }
+        .live-mode { background: #7c3aed; color: #fff; box-shadow: 0 0 16px rgba(124, 58, 237, 0.65); }
+
+        .result-modal, .wallet-modal {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(8, 3, 18, 0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .result-box, .wallet-box {
+            background: #160c28;
+            border: 2px solid var(--neon-cyan);
+            padding: 28px;
+            border-radius: 18px;
+            text-align: center;
+            width: 90%;
+            max-width: 430px;
+            box-shadow: 0 0 42px rgba(168, 85, 247, 0.65);
+        }
+
+        .wallet-option {
+            background: #251242;
+            border: 1px solid #7c3aed;
+            color: #fff;
+            padding: 13px;
+            margin: 10px 0;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            transition: 0.2s;
+        }
+
+        .wallet-option:hover {
+            background: #3b1d6e;
+            border-color: var(--neon-cyan);
+            box-shadow: 0 0 14px rgba(34, 211, 238, 0.35);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Efectos eléctricos y chispas -->
+    <div class="electric-sparks-layer">
+        <div class="spark-bolt b1"></div>
+        <div class="spark-bolt b2"></div>
+        <div class="spark-bolt b3"></div>
+        <div class="spark-dot s1"></div>
+        <div class="spark-dot s2"></div>
+        <div class="spark-dot s3"></div>
+        <div class="spark-dot s4"></div>
+    </div>
+
+    <div class="navbar">
+        <div class="logo-area">
+            <img src="https://photos.pinksale.finance/file/pinksale-logo-upload/1791248681417-56c377de956c1c3a7b33918e7ed78ba7.png" alt="Logo">
+            <span>ZAARD LUCKY ARENA</span>
+        </div>
+        <div class="nav-controls">
+            <div class="lang-badge">⚡ 0.0001 BNB ➔ 0.001 ZARD</div>
+            <button class="btn-wallet" id="connectWalletBtn" onclick="conectarDirectoFluido()">Conectar Billetera</button>
+        </div>
+    </div>
+
+    <!-- Pantalla 1: Bienvenida ampliada -->
+    <div id="screenWelcome" class="screen">
+        <div class="welcome-card-box">
+            <div class="floating-logo-container">
+                <img src="https://photos.pinksale.finance/file/pinksale-logo-upload/1791432184680-906fd2a3d85625f79d066e5b033f6011.png" alt="Logo Flotante" class="floating-logo">
+            </div>
+            <h1>⚡ ZAARD LUCKY — ARENA DE PREDICCIÓN BNB / ZARD ⚡</h1>
+            <p class="welcome-desc">
+                Predice el movimiento de <strong>BNB</strong> en rondas de 60 segundos. Apuesta <strong>0.0001 BNB</strong> y gana <strong>0.001 ZARD</strong> desde el contrato pagadero <strong>ZAARD_Arcade_Payout</strong>.
+            </p>
+            <div class="rules-list-welcome">
+                <ul style="list-style-position: inside;">
+                    <li><strong>Apuesta:</strong> 0.0001 BNB hacia <code>0x84f529525fae84b1f1d7ea66939592094426cdc8</code>.</li>
+                    <li><strong>Contrato Pagadero:</strong> <code>0x327f9B551EbC850891111EE394741709294CC1A8</code>.</li>
+                    <li><strong>Premio:</strong> 0.001 ZARD (Contrato ZARD: <code>0xE2879d1172215E728472D7827586bd2796aFA3fB</code>).</li>
+                    <li><strong>Ecosistema:</strong> Consulta en vivo tus saldos de <strong>PANGA</strong>, <strong>ZARED</strong> y <strong>ZYM</strong> con acceso directo a cada token en Web3.</li>
+                </ul>
+            </div>
+            <button class="btn-action" onclick="iniciarTransicion()">⚡ ENTRAR A LA ARENA LUCKY</button>
+        </div>
+    </div>
+
+    <!-- Pantalla 2: Transición -->
+    <div id="screenLoading" class="screen hidden">
+        <div class="loading-box">
+            <div class="spinner"></div>
+            <h2 style="color: var(--neon-cyan); margin-bottom: 10px;">⚡ Cargando Gráficas BNB & ZARD...</h2>
+            <p style="color: #d8b4fe;">Sincronizando motor de velas y contrato pagadero 0x327f...C1A8...</p>
+        </div>
+    </div>
+
+    <!-- Pantalla 3: Arena Lucky -->
+    <div id="screenArena" class="screen hidden">
+        <div class="top-bar-arena">
+            <div>
+                <span id="badgeMode" class="mode-badge guest-mode">Modo Invitado (Simulación Segura)</span>
+            </div>
+            <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+                <div class="timer-badge">⏳ Ronda: <span id="countdown">60</span>s</div>
+                <button onclick="cambiarModo()" class="btn-wallet" id="btnSwitchMode" style="font-size: 0.85rem; padding: 7px 14px;">Activar Modo Apuesta</button>
+            </div>
+        </div>
+
+        <div class="arena-container">
+            <!-- Panel de Apuestas BNB -->
+            <div class="card-panel">
+                <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; margin-bottom: 10px; border-bottom: 1px solid rgba(34, 211, 238, 0.3); padding-bottom: 10px;">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <img src="https://assets.coingecko.com/coins/images/825/small/bnb-icon2_2x.png" alt="BNB Logo" class="chart-header-badge">
+                        <span style="font-size: 1.08rem; font-weight: 800; color: #f3e8ff;">📈 BNB/USD Live Chart — Apuesta 0.0001 BNB</span>
+                    </div>
+                    <span class="price-big" id="priceDisplayBnb">614.25 $</span>
+                </div>
+
+                <div class="payout-pill">
+                    <span>🎯 Apuesta: <strong>0.0001 BNB</strong> ➔ <code>0x84f529525fae84b1f1d7ea66939592094426cdc8</code></span>
+                    <span>🏆 Premio: <strong style="color:#34d399;">0.001 ZARD</strong> • Vault: <code>0x327f...C1A8</code></span>
+                </div>
+
+                <div class="market-chart-box">
+                    <canvas id="candleCanvasBnb"></canvas>
+                </div>
+
+                <div style="margin-bottom: 10px;">
+                    <span style="font-size: 0.78rem; color: var(--neon-cyan); font-weight: bold;">Libro de Órdenes BNB:</span>
+                    <div class="order-book" id="orderBookBnb"></div>
+                </div>
+
+                <div class="bet-buttons">
+                    <button class="btn-sube" onclick="realizarApuesta('SUBE')">⚡ SUBE (CALL) • 0.0001 BNB</button>
+                    <button class="btn-baja" onclick="realizarApuesta('BAJA')">⚡ BAJA (PUT) • 0.0001 BNB</button>
+                </div>
+            </div>
+
+            <!-- Banner central -->
+            <div class="middle-banner-deco">
+                <img src="https://photos.pinksale.finance/file/pinksale-logo-upload/1791494105996-e3366dcac4d9846d38bbb175e71b1538.png" alt="ZAARD Decorativo">
+                <div class="middle-banner-content">
+                    <div class="middle-banner-title">⚡ ZAARD_Arcade_Payout (0x327f...C1A8) ⚡</div>
+                    <div class="middle-banner-text">
+                        Contrato pagadero compartido para los juegos del ecosistema. Recompensa por victoria: <strong>0.001 ZARD</strong> (Token ZARD: <code>0xE2879d1172215E728472D7827586bd2796aFA3fB</code>).
+                    </div>
+                </div>
+            </div>
+
+            <!-- Panel Analítico ZARD Token -->
+            <div class="card-panel">
+                <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; margin-bottom: 10px; border-bottom: 1px solid rgba(192, 132, 252, 0.3); padding-bottom: 10px;">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <img src="https://photos.pinksale.finance/file/pinksale-logo-upload/1791940828941-906fd2a3d85625f79d066e5b033f6011.png" alt="ZARD Logo" class="chart-header-badge" style="border-color: var(--neon-purple); box-shadow: 0 0 15px rgba(192, 132, 252, 0.75);">
+                        <span style="font-size: 1.05rem; font-weight: 800; color: #e9d5ff;">💎 ZARD Token Live Chart (0xE287...3fB)</span>
+                    </div>
+                    <span class="price-big" style="color: var(--neon-purple);" id="priceDisplayZard">0.000060 $</span>
+                </div>
+
+                <div class="market-chart-box">
+                    <canvas id="candleCanvasZard"></canvas>
+                </div>
+
+                <div>
+                    <span style="font-size: 0.78rem; color: var(--neon-purple); font-weight: bold;">Actividad de Premios ZARD (0.001 ZARD):</span>
+                    <div class="order-book" id="orderBookZard"></div>
+                </div>
+            </div>
+
+            <!-- Escaparate de PANGA, ZARED y ZYM con balance y enlace directo Web3 -->
+            <div class="card-panel">
+                <h3 style="font-size: 1.05rem; color: #f3e8ff; margin-bottom: 4px;">⚡ Tokens del Ecosistema ZAARD (PANGA • ZARED • ZYM)</h3>
+                <p style="font-size: 0.84rem; color: #cbd5e1; margin-bottom: 10px;">
+                    Conecta tu billetera para ver tu balance en cada token y abre su ficha en Web3 con un clic.
+                </p>
+                <div class="ecosystem-showcase">
+                    <div class="token-pill-card card-panga">
+                        <div class="token-pill-top">
+                            <img src="https://photos.pinksale.finance/file/pinksale-logo-upload/1790484633328-559fdd3c13098c92f8a665ac39a838c2.png" alt="PANGA">
+                            <div>
+                                <div style="font-weight: 800; color: #fbbf24; font-size: 1.05rem;">PANGA</div>
+                                <div style="font-size: 0.72rem; color: #cbd5e1; word-break: break-all;">0x4a6c3ea9e7132ad217c31f8252119f08c801366e</div>
+                            </div>
+                        </div>
+                        <div class="token-balance-box">
+                            <span style="color:#cbd5e1;">Balance:</span>
+                            <strong id="balancePanga" style="color:#fbbf24;">-- PANGA</strong>
+                        </div>
+                        <a href="https://app.binance.com/uni-qr/web3-token-details?utm_medium=share&tokenCA=0x4a6c3ea9e7132ad217c31f8252119f08c801366e&binanceChainId=56&chain=bsc" target="_blank" class="web3-token-tag">
+                            ⚡ Abrir PANGA en Web3 ↗
+                        </a>
+                    </div>
+
+                    <div class="token-pill-card card-zared">
+                        <div class="token-pill-top">
+                            <img src="https://photos.pinksale.finance/file/pinksale-logo-upload/1794605349763-3b36fe22e2048e05bbf50f8bdf231392.png" alt="ZARED">
+                            <div>
+                                <div style="font-weight: 800; color: #f472b6; font-size: 1.05rem;">ZARED</div>
+                                <div style="font-size: 0.72rem; color: #cbd5e1; word-break: break-all;">0xfc2aca08fc64e51793c32e9088fc43a57d39690e</div>
+                            </div>
+                        </div>
+                        <div class="token-balance-box">
+                            <span style="color:#cbd5e1;">Balance:</span>
+                            <strong id="balanceZared" style="color:#f472b6;">-- ZARED</strong>
+                        </div>
+                        <a href="https://app.binance.com/uni-qr/web3-token-details?utm_medium=share&tokenCA=0xfc2aca08fc64e51793c32e9088fc43a57d39690e&binanceChainId=56&chain=bsc" target="_blank" class="web3-token-tag">
+                            ⚡ Abrir ZARED en Web3 ↗
+                        </a>
+                    </div>
+
+                    <div class="token-pill-card card-zym">
+                        <div class="token-pill-top">
+                            <img src="https://photos.pinksale.finance/file/pinksale-logo-upload/1793917735714-d84b28c0d04f3063f454cbc1d8a062fb.png" alt="ZYM">
+                            <div>
+                                <div style="font-weight: 800; color: #c084fc; font-size: 1.05rem;">ZYM</div>
+                                <div style="font-size: 0.72rem; color: #cbd5e1; word-break: break-all;">0x3984bd80e73777f2e790892435338d032b987bc7</div>
+                            </div>
+                        </div>
+                        <div class="token-balance-box">
+                            <span style="color:#cbd5e1;">Balance:</span>
+                            <strong id="balanceZym" style="color:#c084fc;">-- ZYM</strong>
+                        </div>
+                        <a href="https://app.binance.com/uni-qr/web3-token-details?utm_medium=share&tokenCA=0x3984bd80e73777f2e790892435338d032b987bc7&binanceChainId=56&chain=bsc" target="_blank" class="web3-token-tag">
+                            ⚡ Abrir ZYM en Web3 ↗
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Banner inferior -->
+            <div class="bottom-full-banner">
+                <img src="https://photos.pinksale.finance/file/pinksale-logo-upload/1790287451706-4593a246bbbf27b508770c328ab883c0.png" alt="Ecosistema Zard">
+                <div class="bottom-full-text-area">
+                    <div class="bottom-full-title">⚡ ARENA LUCKY CON CONTRATO PAGADERO ZARD ⚡</div>
+                    <div class="bottom-full-desc">
+                        Apuestas directas de 0.0001 BNB y recompensas de 0.001 ZARD respaldadas por el contrato <code>0x327f9B551EbC850891111EE394741709294CC1A8</code> en BNB Smart Chain.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Enlaces del ecosistema -->
+            <div class="footer-nav-links">
+                <a href="https://figueredo56.github.io/zaard-innovation-dapp/" target="_blank" class="footer-link-btn">🌐 REGRESAR A ZAARD FINANCE</a>
+                <a href="https://app.binance.com/uni-qr/web3-token-details?utm_medium=share&tokenCA=0xE2879d1172215E728472D7827586bd2796aFA3fB&binanceChainId=56&chain=bsc" target="_blank" class="footer-link-btn">💎 VER ZARD EN BINANCE WEB3</a>
+                <a href="https://figueredo56.github.io/zaard-tracker/" target="_blank" class="footer-link-btn">📊 ZAARD TRACKER</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Selección de Billetera -->
+    <div id="walletModal" class="wallet-modal hidden">
+        <div class="wallet-box">
+            <h3 style="color: #e9d5ff; margin-bottom: 12px;">⚡ Conectar Billetera Web3</h3>
+            <p style="color: #cbd5e1; font-size: 0.85rem; margin-bottom: 14px;">Abre directo el navegador de tu cartera sin copiar ni pegar:</p>
+            <button class="wallet-option" onclick="irDirectoCartera('binance')">🟡 Abrir en Binance Web3 App</button>
+            <button class="wallet-option" onclick="irDirectoCartera('trust')">🛡️ Abrir en Trust Wallet</button>
+            <button class="wallet-option" onclick="irDirectoCartera('metamask')">🦊 Abrir en MetaMask</button>
+            <button onclick="cerrarSelectorBilletera()" style="background: transparent; border: 1px solid #7c3aed; color: #c084fc; padding: 8px; border-radius: 8px; margin-top: 10px; cursor: pointer; width: 100%;">Cancelar</button>
+        </div>
+    </div>
+
+    <!-- Modal de Resultado de la Ronda -->
+    <div id="resultModal" class="result-modal hidden">
+        <div class="result-box">
+            <h2 id="resultTitle" style="margin-bottom: 14px; color: #34d399;">¡Resultado de la Ronda!</h2>
+            <p id="resultDesc" style="color: #e9d5ff; font-size: 0.95rem; margin-bottom: 20px; line-height: 1.55;"></p>
+            <button class="btn-action" onclick="cerrarModalResultado()">Continuar Operando</button>
+        </div>
+    </div>
+
+    <script>
+        const WALLET_CREADORA = "0x84f529525fae84b1f1d7ea66939592094426cdc8";
+        const ZARD_TOKEN_CONTRACT = "0xE2879d1172215E728472D7827586bd2796aFA3fB";
+        const ZAARD_VAULT_CONTRACT = "0x327f9B551EbC850891111EE394741709294CC1A8";
+        const BET_WEI_HEX = "0x38D7EA4C68000"; // 0.0001 BNB
+        const PRIZE_ZARD_AMOUNT = "0.001 ZARD";
+
+        const ECOSYSTEM_TOKENS = {
+            panga: { address: "0x4a6c3ea9e7132ad217c31f8252119f08c801366e", symbol: "PANGA", elId: "balancePanga" },
+            zared: { address: "0xfc2aca08fc64e51793c32e9088fc43a57d39690e", symbol: "ZARED", elId: "balanceZared" },
+            zym:   { address: "0x3984bd80e73777f2e790892435338d032b987bc7", symbol: "ZYM",   elId: "balanceZym" }
+        };
+
+        let modoActual = 'invitado';
+        let cuentaConectada = null;
+        let timeLeft = 60;
+        let temporizadorActivo = false;
+        let intervaloTimer = null;
+        let apuestaActiva = null;
+        let preciosActuales = { BNB: 614.25, ZARD: 0.000060 };
+
+        function conectarDirectoFluido() {
+            if (typeof window.ethereum !== 'undefined') {
+                window.ethereum.request({ method: 'eth_requestAccounts' })
+                    .then(async (accounts) => {
+                        if (!accounts || !accounts.length) return;
+                        cuentaConectada = accounts[0];
+                        const shortAddr = cuentaConectada.substring(0, 6) + "..." + cuentaConectada.substring(cuentaConectada.length - 4);
+                        document.getElementById('connectWalletBtn').innerText = "⚡ " + shortAddr;
+                        await actualizarBalancesEcosistema(cuentaConectada);
+                    })
+                    .catch(() => {
+                        abrirSelectorBilletera();
+                    });
+            } else {
+                // Redirección directa al navegador de la cartera sin que el usuario copie o pegue nada
+                const currentUrl = window.location.href;
+                window.location.href = "https://metamask.app.link/dapp/" + currentUrl.replace(/^https?:\/\//, '');
+            }
+        }
+
+        function irDirectoCartera(tipo) {
+            cerrarSelectorBilletera();
+            const currentUrl = window.location.href;
+            if (tipo === 'binance') {
+                window.location.href = "https://app.binance.com/uni-qr/web3-token-details?app_browser=true&url=" + encodeURIComponent(currentUrl);
+            } else if (tipo === 'trust') {
+                window.location.href = "https://link.trustwallet.com/open_url?coin_id=20000714&url=" + encodeURIComponent(currentUrl);
+            } else {
+                window.location.href = "https://metamask.app.link/dapp/" + currentUrl.replace(/^https?:\/\//, '');
+            }
+        }
+
+        async function actualizarBalancesEcosistema(address) {
+            if (!window.ethereum || !address) return;
+            const paddedAddr = address.toLowerCase().replace(/^0x/, '').padStart(64, '0');
+            const dataCall = '0x70a08231' + paddedAddr;
+
+            for (const key of Object.keys(ECOSYSTEM_TOKENS)) {
+                const info = ECOSYSTEM_TOKENS[key];
+                const el = document.getElementById(info.elId);
+                if (!el) continue;
+                try {
+                    const hexBal = await window.ethereum.request({
+                        method: 'eth_call',
+                        params: [{ to: info.address, data: dataCall }, 'latest']
+                    });
+                    if (hexBal && hexBal !== '0x') {
+                        const raw = BigInt(hexBal);
+                        const formatted = (Number(raw) / 1e18).toLocaleString('es-ES', { maximumFractionDigits: 2 });
+                        el.innerText = `${formatted} ${info.symbol}`;
+                    } else {
+                        el.innerText = `0.00 ${info.symbol}`;
+                    }
+                } catch (e) {
+                    el.innerText = `0.00 ${info.symbol}`;
+                }
+            }
+        }
+
+        function iniciarTemporizadorRonda() {
+            if (temporizadorActivo) return;
+            temporizadorActivo = true;
+            timeLeft = 60;
+            document.getElementById('countdown').innerText = timeLeft;
+
+            intervaloTimer = setInterval(() => {
+                timeLeft--;
+                document.getElementById('countdown').innerText = timeLeft;
+
+                if (timeLeft <= 0) {
+                    clearInterval(intervaloTimer);
+                    temporizadorActivo = false;
+                    verificarResultadoRonda();
+                }
+            }, 1000);
+        }
+
+        function iniciarTransicion() {
+            document.getElementById('screenWelcome').classList.add('hidden');
+            document.getElementById('screenLoading').classList.remove('hidden');
+            setTimeout(() => {
+                document.getElementById('screenLoading').classList.add('hidden');
+                document.getElementById('screenArena').classList.remove('hidden');
+                initCanvas('candleCanvasBnb', 614.25, 'priceDisplayBnb', 0.0009, 2, '#22d3ee');
+                initCanvas('candleCanvasZard', 0.000060, 'priceDisplayZard', 0.0022, 6, '#c084fc');
+                initOrderBooks();
+                if (typeof window.ethereum !== 'undefined' && window.ethereum.selectedAddress) {
+                    cuentaConectada = window.ethereum.selectedAddress;
+                    const shortAddr = cuentaConectada.substring(0, 6) + "..." + cuentaConectada.substring(cuentaConectada.length - 4);
+                    document.getElementById('connectWalletBtn').innerText = "⚡ " + shortAddr;
+                    actualizarBalancesEcosistema(cuentaConectada);
+                }
+            }, 1800);
+        }
+
+        function initOrderBooks() {
+            const listBnb = document.getElementById('orderBookBnb');
+            const listZard = document.getElementById('orderBookZard');
+            const sampleWallets = ["0x4A...9b21", "0x8F...11c4", "0x2C...e490", "0x9E...31a8", "0x7D...55aa"];
+
+            for (let i = 0; i < 4; i++) {
+                addOrder(listBnb, sampleWallets, "0.0001 BNB");
+                addRewardOrder(listZard, sampleWallets);
+            }
+
+            setInterval(() => {
+                if (listBnb && listZard) {
+                    addOrder(listBnb, sampleWallets, "0.0001 BNB");
+                    addRewardOrder(listZard, sampleWallets);
+                }
+            }, 3500);
+        }
+
+        function addOrder(container, wallets, unit) {
+            const wallet = wallets[Math.floor(Math.random() * wallets.length)];
+            const isSube = Math.random() > 0.45;
+            const typeText = isSube ? `SUBE (${unit})` : `BAJA (${unit})`;
+            const cssClass = isSube ? "order-green" : "order-red";
+
+            const div = document.createElement('div');
+            div.className = "order-item";
+            div.innerHTML = `<span>${wallet}</span> <span class="${cssClass}">${typeText}</span>`;
+
+            container.prepend(div);
+            if (container.children.length > 5) {
+                container.removeChild(container.lastChild);
+            }
+        }
+
+        function addRewardOrder(container, wallets) {
+            const wallet = wallets[Math.floor(Math.random() * wallets.length)];
+            const div = document.createElement('div');
+            div.className = "order-item";
+            div.innerHTML = `<span>${wallet}</span> <span class="order-green">+${PRIZE_ZARD_AMOUNT} (Vault)</span>`;
+
+            container.prepend(div);
+            if (container.children.length > 5) {
+                container.removeChild(container.lastChild);
+            }
+        }
+
+        function initCanvas(canvasId, basePrice, priceDisplayId, volatility, decimals, accentColor) {
+            const canvas = document.getElementById(canvasId);
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+
+            let candles = [];
+            let currentP = basePrice;
+
+            for (let i = 0; i < 28; i++) {
+                let open = currentP + (Math.random() - 0.5) * (basePrice * volatility);
+                let close = open + (Math.random() - 0.48) * (basePrice * (volatility * 0.9));
+                let high = Math.max(open, close) + Math.random() * (basePrice * (volatility * 0.45));
+                let low = Math.min(open, close) - Math.random() * (basePrice * (volatility * 0.45));
+                candles.push({ open, close, high, low });
+                currentP = close;
+            }
+
+            setInterval(() => {
+                let last = candles[candles.length - 1];
+                let newClose = last.close + (Math.random() - 0.49) * (basePrice * (volatility * 0.35));
+                last.close = newClose;
+                last.high = Math.max(last.high, newClose);
+                last.low = Math.min(last.low, newClose);
+
+                let assetKey = canvasId.includes('Bnb') ? 'BNB' : 'ZARD';
+                preciosActuales[assetKey] = newClose;
+
+                document.getElementById(priceDisplayId).innerText = newClose.toFixed(decimals) + " $";
+
+                canvas.width = canvas.offsetWidth;
+                canvas.height = canvas.offsetHeight;
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                ctx.strokeStyle = 'rgba(34, 211, 238, 0.09)';
+                ctx.lineWidth = 1;
+                for (let g = 1; g < 4; g++) {
+                    const yGrid = (canvas.height / 4) * g;
+                    ctx.beginPath();
+                    ctx.moveTo(0, yGrid);
+                    ctx.lineTo(canvas.width, yGrid);
+                    ctx.stroke();
+                }
+
+                let candleWidth = canvas.width / candles.length;
+                let maxH = Math.max(...candles.map(c => c.high));
+                let minL = Math.min(...candles.map(c => c.low));
+                let range = maxH - minL || 1;
+
+                candles.forEach((c, index) => {
+                    let x = index * candleWidth + candleWidth / 2;
+                    let yHigh = canvas.height - ((c.high - minL) / range) * (canvas.height - 28) - 14;
+                    let yLow = canvas.height - ((c.low - minL) / range) * (canvas.height - 28) - 14;
+                    let yOpen = canvas.height - ((c.open - minL) / range) * (canvas.height - 28) - 14;
+                    let yClose = canvas.height - ((c.close - minL) / range) * (canvas.height - 28) - 14;
+
+                    let isGreen = c.close >= c.open;
+                    let color = isGreen ? '#34d399' : '#fb7185';
+
+                    ctx.save();
+                    ctx.shadowColor = isGreen ? 'rgba(52, 211, 153, 0.65)' : 'rgba(251, 113, 133, 0.65)';
+                    ctx.shadowBlur = 10;
+                    ctx.strokeStyle = color;
+                    ctx.fillStyle = color;
+
+                    ctx.lineWidth = 1.5;
+                    ctx.beginPath();
+                    ctx.moveTo(x, yHigh);
+                    ctx.lineTo(x, yLow);
+                    ctx.stroke();
+
+                    let rectY = Math.min(yOpen, yClose);
+                    let rectH = Math.max(Math.abs(yClose - yOpen), 2);
+                    ctx.fillRect(x - candleWidth / 4, rectY, candleWidth / 2, rectH);
+                    ctx.restore();
+                });
+
+                const lastCandle = candles[candles.length - 1];
+                const yLast = canvas.height - ((lastCandle.close - minL) / range) * (canvas.height - 28) - 14;
+                ctx.strokeStyle = accentColor;
+                ctx.setLineDash([4, 4]);
+                ctx.beginPath();
+                ctx.moveTo(0, yLast);
+                ctx.lineTo(canvas.width, yLast);
+                ctx.stroke();
+                ctx.setLineDash([]);
+            }, 600);
+        }
+
+        function realizarApuesta(direccion) {
+            let precioActual = preciosActuales.BNB;
+            apuestaActiva = {
+                activo: 'BNB',
+                direccion,
+                precioInicio: precioActual,
+                roundId: Date.now()
+            };
+
+            iniciarTemporizadorRonda();
+
+            if (modoActual === 'invitado') {
+                alert(`[SIMULACIÓN] Apuesta en BNB (${direccion}) por 0.0001 BNB a ${precioActual.toFixed(2)}$. Premio potencial: ${PRIZE_ZARD_AMOUNT}.`);
+            } else {
+                if (window.ethereum) {
+                    const transactionParameters = {
+                        to: WALLET_CREADORA,
+                        from: cuentaConectada || window.ethereum.selectedAddress,
+                        value: BET_WEI_HEX
+                    };
+
+                    window.ethereum.request({ method: 'eth_sendTransaction', params: [transactionParameters] })
+                        .then((txHash) => {
+                            alert(`¡Apuesta de 0.0001 BNB enviada! Tx: ${txHash}. Espera el cierre de la ronda para optar por ${PRIZE_ZARD_AMOUNT}.`);
+                        })
+                        .catch((err) => {
+                            console.log(err);
+                            alert("Transacción cancelada o rechazada.");
+                            apuestaActiva = null;
+                            clearInterval(intervaloTimer);
+                            temporizadorActivo = false;
+                            timeLeft = 60;
+                            document.getElementById('countdown').innerText = timeLeft;
+                        });
+                } else {
+                    conectarDirectoFluido();
+                }
+            }
+        }
+
+        function verificarResultadoRonda() {
+            if (!apuestaActiva) return;
+
+            let precioFinal = preciosActuales.BNB;
+            let precioInicio = apuestaActiva.precioInicio;
+            let subio = precioFinal >= precioInicio;
+            let acerto = (apuestaActiva.direccion === 'SUBE' && subio) || (apuestaActiva.direccion === 'BAJA' && !subio);
+
+            let modal = document.getElementById('resultModal');
+            let titleEl = document.getElementById('resultTitle');
+            let descEl = document.getElementById('resultDesc');
+
+            if (acerto) {
+                titleEl.style.color = "#34d399";
+                titleEl.innerText = "⚡ ¡VICTORIA EN LA RONDA!";
+                descEl.innerHTML = `Tu predicción <strong>${apuestaActiva.direccion}</strong> en BNB fue correcta (${precioInicio.toFixed(2)}$ ➔ ${precioFinal.toFixed(2)}$).<br>Recompensa: <strong>${PRIZE_ZARD_AMOUNT}</strong>.<br><small style="color:#67e8f9;">Contrato Pagadero: <code>${ZAARD_VAULT_CONTRACT}</code></small>`;
+            } else {
+                titleEl.style.color = "#fb7185";
+                titleEl.innerText = "❌ RONDA SIN ACIERTO";
+                descEl.innerHTML = `El mercado cerró en <strong>${precioFinal.toFixed(2)}$</strong> frente a tu entrada de <strong>${precioInicio.toFixed(2)}$</strong> (${apuestaActiva.direccion}). ¡Inténtalo en la siguiente ronda!`;
+            }
+
+            modal.classList.remove('hidden');
+            apuestaActiva = null;
+            timeLeft = 60;
+            document.getElementById('countdown').innerText = timeLeft;
+        }
+
+        function cerrarModalResultado() {
+            document.getElementById('resultModal').classList.add('hidden');
+        }
+
+        function abrirSelectorBilletera() {
+            document.getElementById('walletModal').classList.remove('hidden');
+        }
+
+        function cerrarSelectorBilletera() {
+            document.getElementById('walletModal').classList.add('hidden');
+        }
+
+        function cambiarModo() {
+            if (modoActual === 'invitado') {
+                modoActual = 'apuesta';
+                document.getElementById('badgeMode').className = "mode-badge live-mode";
+                document.getElementById('badgeMode').innerText = "Modo Apuesta Real (0.0001 BNB)";
+                document.getElementById('btnSwitchMode').innerText = "Cambiar a Modo Invitado";
+                conectarDirectoFluido();
+            } else {
+                modoActual = 'invitado';
+                document.getElementById('badgeMode').className = "mode-badge guest-mode";
+                document.getElementById('badgeMode').innerText = "Modo Invitado (Simulación Segura)";
+                document.getElementById('btnSwitchMode').innerText = "Activar Modo Apuesta";
+                alert("Cambiado a Modo Invitado.");
+            }
+        }
+    </script>
+</body>
+</html>
